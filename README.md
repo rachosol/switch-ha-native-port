@@ -28,6 +28,13 @@ It intentionally contains no streaming, RTSP, overlay, Home Assistant HTTP
 token, remote power controls, notifications, audio, brightness, or controller
 features.
 
+### Compatibility
+
+This release was built and validated with **Atmosphère 1.10.1** (Horizon OS
+21.1.0). No Atmosphère update is planned for the validated setup at this time.
+Use on any other Atmosphère or Horizon OS version is untested and entirely at
+the user's own discretion and risk.
+
 ### Build
 
 Requirements: devkitA64, devkitPro/libnx, Docker (optional), and the
@@ -127,6 +134,13 @@ batería, voltaje, temperatura, salud, estado de carga y heartbeat.
 No incluye deliberadamente streaming, RTSP, overlay, token HTTP de Home
 Assistant, controles remotos de energía, notificaciones, audio, brillo ni
 funciones de mandos.
+
+### Compatibilidad
+
+Esta versión fue compilada y validada con **Atmosphère 1.10.1** (Horizon OS
+21.1.0). Por el momento no se planea actualizar Atmosphère en la instalación
+validada. El uso con cualquier otra versión de Atmosphère o de Horizon OS no
+ha sido probado y queda completamente a discreción y riesgo de cada usuario.
 
 ### Compilación
 
