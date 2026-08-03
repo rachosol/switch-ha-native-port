@@ -15,8 +15,8 @@ required `boot2.flag`, installs `switch/switch-ha/titles.txt`, and creates
 `switch/switch-ha/config.ini` on first use. Existing configuration is never
 overwritten. Restart the console completely after installation.
 
-The installer asks only for the MQTT broker IPv4 address, username, and password.
-The sysmodule uses its built-in client ID, normal MQTT port 1883, and Home
+On first use, the installer creates a blank MQTT template and never modifies
+an existing configuration. The sysmodule uses its built-in client ID and Home
 Assistant discovery prefix `homeassistant`.
 
 Published telemetry: console/game state, game title and ID, battery level,
@@ -47,10 +47,12 @@ make ATMOSPHERE_LIBS=/path/to/Atmosphere-libs
 The generated `switch/switch-ha/config.ini` is deliberately minimal:
 
 ```ini
-mqtt_host=192.168.1.10
-mqtt_username=homeassistant
-mqtt_password=change-me
+mqtt_host=
+mqtt_port=1883
+mqtt_username=
+mqtt_password=
 ```
 
-The current native network client accepts an IPv4 address, not a DNS hostname.
-Do not commit a real configuration file or credentials.
+Fill `mqtt_host`, `mqtt_username`, and `mqtt_password` yourself. `mqtt_port`
+is configurable and defaults to 1883. The native network client accepts an
+IPv4 address, not a DNS hostname. Do not commit real credentials.

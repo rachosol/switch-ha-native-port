@@ -29,32 +29,15 @@ static bool write_file(const char *path, const void *data, size_t size) {
     return written == size && close_result == 0;
 }
 
-static bool prompt_text(const char *guide, char *out, size_t out_size, bool password) {
-    SwkbdConfig keyboard;
-    if (R_FAILED(swkbdCreate(&keyboard, 0))) return false;
-    swkbdConfigSetGuideText(&keyboard, guide);
-    swkbdConfigSetStringLenMax(&keyboard, out_size - 1);
-    swkbdConfigSetInitialText(&keyboard, out);
-    if (password) swkbdConfigSetPasswordFlag(&keyboard, true);
-    const Result rc = swkbdShow(&keyboard, out, out_size);
-    swkbdClose(&keyboard);
-    return R_SUCCEEDED(rc) && out[0] != '\0';
-}
-
 static bool create_config(void) {
-    char host[64] = {};
-    char username[96] = {};
-    char password[128] = {};
-    printf("Configuracion MQTT inicial.\n\n");
-    if (!prompt_text("Direccion IPv4 del broker MQTT", host, sizeof(host), false) ||
-        !prompt_text("Usuario MQTT", username, sizeof(username), false) ||
-        !prompt_text("Contrasena MQTT", password, sizeof(password), true)) return false;
-    char config[512];
-    const int length = snprintf(config, sizeof(config),
-        "# Switch HA Native\n# Generado por el instalador; conserva solo MQTT.\n"
-        "mqtt_host=%s\nmqtt_username=%s\nmqtt_password=%s\n",
-        host, username, password);
-    return length > 0 && (size_t)length < sizeof(config) && write_file(CONFIG_PATH, config, (size_t)length);
+    static const char config[] =
+        "# Switch HA Native MQTT configuration\n"
+        "# Complete these values before restarting the console.\n"
+        "mqtt_host=\n"
+        "mqtt_port=1883\n"
+        "mqtt_username=\n"
+        "mqtt_password=\n";
+    return write_file(CONFIG_PATH, config, sizeof(config) - 1);
 }
 
 int main(int argc, char *argv[]) {
@@ -82,12 +65,14 @@ int main(int argc, char *argv[]) {
         const bool titles = boot_flag && write_file(TITLES_PATH, switch_ha_titles_txt_start,
             (size_t)(switch_ha_titles_txt_end - switch_ha_titles_txt_start));
         bool config = titles;
+        bool config_created = false;
         if (config) {
             FILE *existing = fopen(CONFIG_PATH, "rb");
             if (existing) { fclose(existing); printf("config.ini existente: conservado.\n"); }
-            else config = create_config();
+            else { config = create_config(); config_created = config; }
         }
-        if (config) printf("\nListo. Reinicia completamente la consola para activar el sysmodule.\n");
+        if (config && config_created) printf("\nPlantilla creada en switch/switch-ha/config.ini. Completa MQTT antes de reiniciar.\n");
+        else if (config) printf("\nListo. Reinicia completamente la consola para activar el sysmodule.\n");
         else printf("\nError al instalar. Verifica la SD y vuelve a intentarlo.\n");
         printf("\nPulsa + para salir.\n");
         while (appletMainLoop()) { padUpdate(&pad); if (padGetButtonsDown(&pad) & HidNpadButton_Plus) goto done; consoleUpdate(NULL); }
