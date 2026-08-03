@@ -81,8 +81,10 @@ one line using the exact format below:
 ```
 
 Use the game's 16-character hexadecimal Title ID, followed by a semicolon and
-the desired display name. Save the file as UTF-8 text. Because the installer
-never overwrites an existing `titles.txt`, custom entries survive updates.
+the desired display name. Save the file as UTF-8 text. The reader also accepts
+the colon (`:`) separator used by some existing title databases, and accepts a
+final line without a trailing newline. Because the installer never overwrites
+an existing `titles.txt`, custom entries survive updates.
 
 ### Set up MQTT in Home Assistant
 
@@ -206,9 +208,11 @@ archivo en un computador y agrega una línea con este formato exacto:
 ```
 
 Usa el Title ID hexadecimal de 16 caracteres del juego, seguido de punto y
-coma y el nombre que deseas mostrar. Guarda el archivo como texto UTF-8. Como
-el instalador nunca sobrescribe un `titles.txt` existente, las entradas propias
-se conservan tras las actualizaciones.
+coma y el nombre que deseas mostrar. Guarda el archivo como texto UTF-8. El
+lector también acepta el separador de dos puntos (`:`) usado por algunas bases
+de títulos existentes y una última línea sin salto final. Como el instalador
+nunca sobrescribe un `titles.txt` existente, las entradas propias se conservan
+tras las actualizaciones.
 
 ### Configurar MQTT en Home Assistant
 

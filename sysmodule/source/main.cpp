@@ -200,8 +200,11 @@ namespace ams {
                         if (line_length != 0) {
                             g_title_line[line_length] = '\0';
                             char *separator = g_title_line;
-                            while (*separator != '\0' && *separator != ';') ++separator;
-                            if (*separator == ';') {
+                            /* Existing title databases use ':', while the
+                             * documented hand-edit format uses ';'. Support
+                             * both so a user can extend either form. */
+                            while (*separator != '\0' && *separator != ';' && *separator != ':') ++separator;
+                            if (*separator == ';' || *separator == ':') {
                                 *separator++ = '\0';
                                 if (std::strcmp(g_title_line, expected) == 0 && separator[0] != '\0') {
                                     util::TSNPrintf(out, out_size, "%s", separator);
@@ -212,6 +215,20 @@ namespace ams {
                         }
                     } else if (line_length + 1 < sizeof(g_title_line)) {
                         g_title_line[line_length++] = c;
+                    }
+                }
+            }
+            /* A manually appended entry may legitimately be the final line
+             * without a trailing newline. Process it as well. */
+            if (line_length != 0) {
+                g_title_line[line_length] = '\0';
+                char *separator = g_title_line;
+                while (*separator != '\0' && *separator != ';' && *separator != ':') ++separator;
+                if ((*separator == ';' || *separator == ':') && separator[1] != '\0') {
+                    *separator++ = '\0';
+                    if (std::strcmp(g_title_line, expected) == 0) {
+                        util::TSNPrintf(out, out_size, "%s", separator);
+                        return true;
                     }
                 }
             }
