@@ -122,12 +122,10 @@ namespace ams {
              * did not store the fixed broker host. A new blank template does
              * contain mqtt_host= and therefore deliberately clears this. */
             util::TSNPrintf(out->host, sizeof(out->host), "10.0.0.248");
-            /* Keep the established identifier used by the original working
-             * sysmodule.  This makes the port update the existing Home
-             * Assistant entities instead of silently creating a second Switch
-             * device.  It remains overridable through mqtt_client_id for
-             * installations that deliberately need a separate device. */
-            util::TSNPrintf(out->client_id, sizeof(out->client_id), "switch-ha-c17102a1");
+            /* The port has its own stable identity. It remains overridable
+             * through mqtt_client_id for installations that need a separate
+             * device. */
+            util::TSNPrintf(out->client_id, sizeof(out->client_id), "switch-ha-native");
             fs::FileHandle file;
             if (R_FAILED(fs::OpenFile(std::addressof(file), "sdmc:/switch/switch-ha-native/config.ini", fs::OpenMode_Read))) {
                 return false;
