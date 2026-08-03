@@ -1,0 +1,8 @@
+/sysmodule/build/
+/sysmodule/out/
+/installer/build/
+/installer/*.elf
+/installer/*.map
+/installer/*.nacp
+/installer/*.nro
+!/dist/switch-ha-native.nro
