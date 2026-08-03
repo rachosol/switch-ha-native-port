@@ -33,7 +33,7 @@ namespace ams {
             constinit s32 g_mqtt_connack = -2;
             constinit s32 g_mqtt_publish_result = -2;
             constinit u32 g_status_cycles = 0;
-            constexpr const char *TitlesPath = "sdmc:/switch/switch-ha/titles.txt";
+            constexpr const char *TitlesPath = "sdmc:/switch/switch-ha-native/titles.txt";
 
             struct MqttCredentials {
                 char host[64];
@@ -120,7 +120,7 @@ namespace ams {
             out->port = 1883;
             util::TSNPrintf(out->client_id, sizeof(out->client_id), "switch-ha-native");
             fs::FileHandle file;
-            if (R_FAILED(fs::OpenFile(std::addressof(file), "sdmc:/switch/switch-ha/config.ini", fs::OpenMode_Read))) {
+            if (R_FAILED(fs::OpenFile(std::addressof(file), "sdmc:/switch/switch-ha-native/config.ini", fs::OpenMode_Read))) {
                 return false;
             }
             ON_SCOPE_EXIT { fs::CloseFile(file); };

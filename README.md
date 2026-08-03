@@ -13,9 +13,9 @@ The upstream MIT license is included in [LICENSE](LICENSE), with attribution in
 
 Launch `switch-ha-native.nro` from the Homebrew Menu. It installs the native
 sysmodule at `atmosphere/contents/00FF000053484102/exefs.nsp`, creates the
-required `boot2.flag`, installs `switch/switch-ha/titles.txt`, and creates
-`switch/switch-ha/config.ini` on first use. Existing configuration is never
-overwritten. Restart the console completely after installation.
+required `boot2.flag`, and uses `switch/switch-ha-native/` for the NRO,
+`titles.txt`, and `config.ini`. Existing configuration and title database are
+never overwritten. Restart the console completely after installation.
 
 On first use, the installer creates a blank MQTT template and does not modify
 an existing configuration. The sysmodule uses its built-in client ID and the
@@ -54,7 +54,7 @@ make ATMOSPHERE_LIBS=/path/to/Atmosphere-libs
 
 ### Switch configuration
 
-The generated `switch/switch-ha/config.ini` is deliberately minimal:
+The generated `switch/switch-ha-native/config.ini` is deliberately minimal:
 
 ```ini
 mqtt_host=
@@ -66,6 +66,20 @@ mqtt_password=
 Fill `mqtt_host`, `mqtt_username`, and `mqtt_password` yourself. `mqtt_port`
 is configurable and defaults to 1883. The native network client accepts an
 IPv4 address, not a DNS hostname. Do not commit real credentials.
+
+### Add a missing game title
+
+`switch/switch-ha-native/titles.txt` is preserved during program updates. To
+add a game not included in the database, edit that file on a computer and add
+one line using the exact format below:
+
+```text
+0100ABCDEF123000;My Game Title
+```
+
+Use the game's 16-character hexadecimal Title ID, followed by a semicolon and
+the desired display name. Save the file as UTF-8 text. Because the installer
+never overwrites an existing `titles.txt`, custom entries survive updates.
 
 ### Set up MQTT in Home Assistant
 
@@ -120,9 +134,9 @@ La licencia MIT original se incluye en [LICENSE](LICENSE), con atribución en
 
 Inicia `switch-ha-native.nro` desde Homebrew Menu. Instala el sysmodule nativo
 en `atmosphere/contents/00FF000053484102/exefs.nsp`, crea el `boot2.flag`
-requerido, instala `switch/switch-ha/titles.txt` y crea
-`switch/switch-ha/config.ini` en el primer uso. Nunca sobrescribe una
-configuración existente. Reinicia completamente la consola después de instalar.
+requerido y usa `switch/switch-ha-native/` para el NRO, `titles.txt` y
+`config.ini`. Nunca sobrescribe una configuración ni una base de títulos
+existente. Reinicia completamente la consola después de instalar.
 
 En el primer uso, el instalador crea una plantilla MQTT vacía y no modifica una
 configuración existente. El sysmodule usa su client ID integrado y el prefijo
@@ -161,7 +175,7 @@ make ATMOSPHERE_LIBS=/ruta/a/Atmosphere-libs
 
 ### Configuración de Switch
 
-El archivo generado `switch/switch-ha/config.ini` se limita a lo necesario:
+El archivo generado `switch/switch-ha-native/config.ini` se limita a lo necesario:
 
 ```ini
 mqtt_host=
@@ -174,6 +188,21 @@ Completa tú mismo `mqtt_host`, `mqtt_username` y `mqtt_password`.
 `mqtt_port` es configurable y su valor predeterminado es 1883. El cliente de
 red nativo acepta una dirección IPv4, no un nombre DNS. No subas credenciales
 reales al repositorio.
+
+### Añadir el título de un juego faltante
+
+`switch/switch-ha-native/titles.txt` se conserva durante las actualizaciones
+del programa. Para añadir un juego que no está en la base de datos, edita ese
+archivo en un computador y agrega una línea con este formato exacto:
+
+```text
+0100ABCDEF123000;Título de mi juego
+```
+
+Usa el Title ID hexadecimal de 16 caracteres del juego, seguido de punto y
+coma y el nombre que deseas mostrar. Guarda el archivo como texto UTF-8. Como
+el instalador nunca sobrescribe un `titles.txt` existente, las entradas propias
+se conservan tras las actualizaciones.
 
 ### Configurar MQTT en Home Assistant
 
