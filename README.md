@@ -56,3 +56,43 @@ mqtt_password=
 Fill `mqtt_host`, `mqtt_username`, and `mqtt_password` yourself. `mqtt_port`
 is configurable and defaults to 1883. The native network client accepts an
 IPv4 address, not a DNS hostname. Do not commit real credentials.
+
+## Configurar MQTT en Home Assistant
+
+Switch HA Native necesita un broker MQTT accesible desde la Switch. La opción
+recomendada por Home Assistant es su aplicación oficial **Mosquitto broker**.
+
+1. En Home Assistant, abre **Settings → Apps → App store**, busca
+   **Mosquitto broker**, instálalo e inícialo.
+2. Abre la pestaña **Configuration** de la aplicación y añade un login dedicado
+   para la Switch. Elige una contraseña única y robusta:
+
+   ```yaml
+   logins:
+     - username: switch_ha
+       password: replace-with-a-long-unique-password
+   ```
+
+   Guarda la configuración y reinicia la aplicación Mosquitto broker. No
+   reutilices una cuenta de administrador de Home Assistant ni publiques esta
+   contraseña en GitHub.
+3. En **Settings → Devices & services**, añade la integración **MQTT** si aún
+   no existe. El asistente puede configurar automáticamente el broker oficial;
+   verifica que MQTT discovery esté habilitado y que el prefijo sea
+   `homeassistant`.
+4. Obtén la IPv4 local de Home Assistant o del host del broker y completa la
+   plantilla de la Switch:
+
+   ```ini
+   mqtt_host=192.168.1.10
+   mqtt_port=1883
+   mqtt_username=switch_ha
+   mqtt_password=replace-with-a-long-unique-password
+   ```
+
+5. Reinicia completamente la Switch. En aproximadamente 30 segundos aparecerá
+   el dispositivo Nintendo Switch mediante MQTT discovery.
+
+La guía oficial de Home Assistant para MQTT explica la instalación del broker,
+la integración y la gestión de logins adicionales:
+[MQTT - Home Assistant](https://www.home-assistant.io/integrations/mqtt/).
