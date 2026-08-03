@@ -13,7 +13,7 @@ The upstream MIT license is included in [LICENSE](LICENSE), with attribution in
 
 Launch `switch-ha-native.nro` from the Homebrew Menu. It installs the native
 sysmodule at `atmosphere/contents/00FF000053484102/exefs.nsp`, creates the
-required `boot2.flag`, and uses `switch/switch-ha-native/` for the NRO,
+required `flags/boot2.flag`, and uses `switch/switch-ha-native/` for the NRO,
 `titles.txt`, and `config.ini`. Existing configuration and title database are
 never overwritten. Restart the console completely after installation.
 
@@ -137,7 +137,7 @@ La licencia MIT original se incluye en [LICENSE](LICENSE), con atribución en
 
 Inicia `switch-ha-native.nro` desde Homebrew Menu. Instala el sysmodule nativo
 en `atmosphere/contents/00FF000053484102/exefs.nsp`, crea el `boot2.flag`
-requerido y usa `switch/switch-ha-native/` para el NRO, `titles.txt` y
+requerido en `flags/boot2.flag` y usa `switch/switch-ha-native/` para el NRO, `titles.txt` y
 `config.ini`. Nunca sobrescribe una configuración ni una base de títulos
 existente. Reinicia completamente la consola después de instalar.
 

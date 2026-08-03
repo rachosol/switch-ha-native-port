@@ -8,7 +8,9 @@
 
 #define CONTENTS_DIR "sdmc:/atmosphere/contents/00FF000053484102"
 #define EXEFS_PATH CONTENTS_DIR "/exefs.nsp"
-#define BOOT_FLAG_PATH CONTENTS_DIR "/boot2.flag"
+#define FLAGS_DIR CONTENTS_DIR "/flags"
+#define BOOT_FLAG_PATH FLAGS_DIR "/boot2.flag"
+#define LEGACY_BOOT_FLAG_PATH CONTENTS_DIR "/boot2.flag"
 #define APP_DIR "sdmc:/switch/switch-ha-native"
 #define CONFIG_PATH APP_DIR "/config.ini"
 #define TITLES_PATH APP_DIR "/titles.txt"
@@ -113,10 +115,11 @@ int main(int argc, char *argv[]) {
         }
         printf("\nInstalando...\n");
         const bool dirs = ensure_dir("sdmc:/atmosphere") && ensure_dir("sdmc:/atmosphere/contents") &&
-                          ensure_dir(CONTENTS_DIR) && ensure_dir("sdmc:/switch") && ensure_dir(APP_DIR);
+                          ensure_dir(CONTENTS_DIR) && ensure_dir(FLAGS_DIR) && ensure_dir("sdmc:/switch") && ensure_dir(APP_DIR);
         const bool sysmodule = dirs && write_file(EXEFS_PATH, switch_ha_native_nsp_start,
             (size_t)(switch_ha_native_nsp_end - switch_ha_native_nsp_start));
         const bool boot_flag = sysmodule && write_file(BOOT_FLAG_PATH, "", 0);
+        if (boot_flag) remove(LEGACY_BOOT_FLAG_PATH);
         const bool titles = boot_flag && install_or_preserve(TITLES_PATH, LEGACY_TITLES_PATH,
             switch_ha_titles_txt_start, (size_t)(switch_ha_titles_txt_end - switch_ha_titles_txt_start));
         bool config = titles;
