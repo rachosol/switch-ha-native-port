@@ -118,6 +118,10 @@ namespace ams {
         bool LoadMqttCredentials(MqttCredentials *out) {
             *out = {};
             out->port = 1883;
+            /* Compatibility with the original native deployment: its config
+             * did not store the fixed broker host. A new blank template does
+             * contain mqtt_host= and therefore deliberately clears this. */
+            util::TSNPrintf(out->host, sizeof(out->host), "10.0.0.248");
             util::TSNPrintf(out->client_id, sizeof(out->client_id), "switch-ha-native");
             fs::FileHandle file;
             if (R_FAILED(fs::OpenFile(std::addressof(file), "sdmc:/switch/switch-ha-native/config.ini", fs::OpenMode_Read))) {

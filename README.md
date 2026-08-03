@@ -65,7 +65,10 @@ mqtt_password=
 
 Fill `mqtt_host`, `mqtt_username`, and `mqtt_password` yourself. `mqtt_port`
 is configurable and defaults to 1883. The native network client accepts an
-IPv4 address, not a DNS hostname. Do not commit real credentials.
+IPv4 address, not a DNS hostname. Do not commit real credentials. When this
+installer migrates a legacy `switch-ha` configuration without `mqtt_host`, it
+preserves the previous validated broker host for compatibility; newly created
+templates never receive a host automatically.
 
 ### Add a missing game title
 
@@ -187,7 +190,10 @@ mqtt_password=
 Completa tú mismo `mqtt_host`, `mqtt_username` y `mqtt_password`.
 `mqtt_port` es configurable y su valor predeterminado es 1883. El cliente de
 red nativo acepta una dirección IPv4, no un nombre DNS. No subas credenciales
-reales al repositorio.
+reales al repositorio. Cuando este instalador migra una configuración antigua
+de `switch-ha` sin `mqtt_host`, conserva el broker validado previamente por
+compatibilidad; las plantillas creadas desde cero nunca reciben un host
+automáticamente.
 
 ### Añadir el título de un juego faltante
 
